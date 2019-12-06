@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
 
 void main() => runApp(MyApp());
 
@@ -27,6 +31,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  final boardsUrl = 'https://a.4cdn.org/boards.json';
+  dynamic boardsData = null;
 
   void _incrementCounter() {
     setState(() {
@@ -41,19 +47,39 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
-          ],
+        child: FutureBuilder(
+                future: http.get(this.boardsUrl),
+                builder: (context, snapshot) {
+
+                  if(snapshot.connectionState == ConnectionState.done) {
+                    this.boardsData = jsonDecode(snapshot.data.body)['boards'];
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.all(10.0),
+                      itemCount: boardsData.length,
+                      itemBuilder: (context, i) {
+                        return Card(
+                          child: ListTile(
+                            title: Text(
+                              this.boardsData[i]['title'].toString(),
+                            )
+                          )
+                        );
+                      },
+
+                    );
+                  }
+
+                  else {
+                    return Text(
+                      'Getting...'
+                    );
+                  }
+                }
+
+              )
+
         ),
-      ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
