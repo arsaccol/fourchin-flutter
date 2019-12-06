@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import './boards.dart';
 
 void main() => runApp(MyApp());
 
@@ -47,38 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: FutureBuilder(
-                future: http.get(this.boardsUrl),
-                builder: (context, snapshot) {
-
-                  if(snapshot.connectionState == ConnectionState.done) {
-                    this.boardsData = jsonDecode(snapshot.data.body)['boards'];
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      padding: const EdgeInsets.all(10.0),
-                      itemCount: boardsData.length,
-                      itemBuilder: (context, i) {
-                        return Card(
-                          child: ListTile(
-                            title: Text(
-                              this.boardsData[i]['title'].toString(),
-                            )
-                          )
-                        );
-                      },
-
-                    );
-                  }
-
-                  else {
-                    return Text(
-                      'Getting...'
-                    );
-                  }
-                }
-
-              )
-
+        child: BoardsScreen()
         ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
