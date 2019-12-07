@@ -23,6 +23,9 @@ class BoardsScreen extends StatelessWidget {
                   title: Text(
                     this.boardsData[i]['title'].toString(),
                   ),
+                  subtitle: Text(
+                    this.boardsData[i]['meta_description'],
+                  )
                 ),
               );
             },
