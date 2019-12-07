@@ -31,9 +31,17 @@ class BoardsScreen extends StatelessWidget {
         } //if snapshot etc.
         
         else {
-          return Text(
-            'Getting...'
-
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget> [
+              Text(
+                'Getting boards...',
+              ),
+              Divider(
+                height: 30,
+              ),
+              CircularProgressIndicator()
+            ]
           );
 
         }
