@@ -24,14 +24,19 @@ class BoardsScreen extends StatelessWidget {
             itemBuilder: (context, i) {
 
               return Card(
-                child: ListTile(
-                  title: Text(
-                    this.boardsData[i]['title'].toString(),
+                child: InkWell(
+                  onTap: () {
+                    print('\"${boardsData[i]['title']}\" board card tapped!');
+                  },
+                  child: ListTile(
+                    title: Text(
+                      this.boardsData[i]['title'].toString(),
+                    ),
+                    subtitle: Text(
+                      unescape.convert(this.boardsData[i]['meta_description']),
+                    )
                   ),
-                  subtitle: Text(
-                    unescape.convert(this.boardsData[i]['meta_description']),
-                  )
-                ),
+                )
               );
             },
 
