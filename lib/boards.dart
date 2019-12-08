@@ -1,9 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:fourchin/single_board.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:html_unescape/html_unescape.dart';
+
+import './single_board.dart';
 
 class BoardsScreen extends StatelessWidget {
   final boardsUrl = 'https://a.4cdn.org/boards.json';
@@ -27,6 +30,14 @@ class BoardsScreen extends StatelessWidget {
                 child: InkWell(
                   onTap: () {
                     print('\"${boardsData[i]['title']}\" board card tapped!');
+                    Navigator.push(
+                      context, 
+                      MaterialPageRoute(
+                        builder: (context) => SingleBoardScreen(
+                          boardTitle: this.boardsData[i]['title'],
+                        )
+                      )
+                    );
                   },
                   child: ListTile(
                     title: Text(
